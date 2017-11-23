@@ -45,6 +45,10 @@ int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_cr
 		*nb_ligne = i;
 		fclose(file);
 	}
+	else
+	{
+		printf("erreure ouverture de fichier");
+	}
 	
 	return 0;
 	

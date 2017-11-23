@@ -1,10 +1,4 @@
 ﻿  main.c
-<<<<<<< HEAD
-c:\users\stani\source\repos\log635_lab3\src\main.c(87): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-c:\users\stani\source\repos\log635_lab3\src\main.c(98): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\stani\source\repos\log635_lab3\src\main.c(91): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+c:\users\stani\source\repos\log635_lab3\src\main.c(102): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
   LOG635-lab3.vcxproj -> C:\Users\stani\source\repos\LOG635_lab3\Debug\LOG635-lab3.exe
-=======
-d:\antoine\travail\00_ets\log635\log635_lab3\src\main.c(90): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-d:\antoine\travail\00_ets\log635\log635_lab3\src\main.c(101): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
-  LOG635-lab3.vcxproj -> D:\Antoine\Travail\00_ETS\LOG635\LOG635_lab3\Debug\LOG635-lab3.exe
->>>>>>> 68356d338da5a086045c27aab8a76791dd6dc936
