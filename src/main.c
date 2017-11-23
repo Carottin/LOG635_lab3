@@ -44,7 +44,10 @@ int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_cr
 		}
 		*nb_ligne = i;
 	}
-	fclose(file);
+	if (file != NULL) {
+		fclose(file);
+		printf("qsdqsd");
+	}
 	
 	return 0;
 	
