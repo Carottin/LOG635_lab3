@@ -8,8 +8,8 @@
 
 int main(int argc, int* argv[])
 {
-	float** matrice_data = (float**)malloc(sizeof(float*) * NB_LIGNE_MAX);
-	char** title_data = (char**)malloc(sizeof(char*)*NB_ARGUMENTS_MAX);
+	float** matrice_data = (float**)malloc(sizeof(float*) * NB_LIGNE_MAX); // Données des classes	
+	char** title_data = (char**)malloc(sizeof(char*)*NB_ARGUMENTS_MAX); // nom de la donnée
 	int nb_ligne, nb_critere;
 	open_data(matrice_data, title_data, &nb_ligne, &nb_critere);
 
@@ -24,10 +24,11 @@ int main(int argc, int* argv[])
 }
 
 
-
+// Open the csv file
+// Fill matrice data
 int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_critere) {
-	FILE* file = NULL;
-	file = fopen(DATASET_FOLDER, "r");
+	FILE* file = NULL; // create a new file
+	file = fopen(DATASET_FOLDER, "r");  // open csv file
 	if (file != NULL) {
 		char txt_buf[500];
 		fgets(txt_buf, 500, file);
@@ -49,6 +50,7 @@ int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_cr
 	
 }
 
+// Split txt_buf with by separateur in txt_split
 int split_char(char* txt_buf, char** txt_split, char separateur) {
 	int sizeof_split = 0;
 	for (int i = 0; txt_buf[i] != '\n'; i++) if (txt_buf[i] == separateur) sizeof_split++;
@@ -73,6 +75,7 @@ int split_char(char* txt_buf, char** txt_split, char separateur) {
 	return sizeof_split + 1;
 }
 
+// same as split_char but convert in float
 int split_char_tofloat(char* txt_buf, float* float_split, char separateur) {
 	
 	char tmp[30];
