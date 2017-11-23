@@ -43,8 +43,8 @@ int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_cr
 			i++;
 		}
 		*nb_ligne = i;
+		fclose(file);
 	}
-	fclose(file);
 	
 	return 0;
 	

@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0.16299.0
+<<<<<<< HEAD
 Debug|Win32|C:\Users\stani\source\repos\LOG635_lab3\|
+=======
+Debug|Win32|D:\Antoine\Travail\00_ETS\LOG635\LOG635_lab3\|
+>>>>>>> 68356d338da5a086045c27aab8a76791dd6dc936
