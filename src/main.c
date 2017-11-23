@@ -16,7 +16,7 @@ int main(int argc, int* argv[])
 	for (int i = 0; i < nb_critere; i++)
 	{
 
-		printf("%s->%f ", title_data[i], matrice_data[3][i]);
+		printf("%s->%f \n", title_data[i], matrice_data[3][i]);
 	}
 	
 
