@@ -1,0 +1,4 @@
+﻿  main.c
+d:\onedrive\documents\canada\labo\log635\labo\lab 3\main.c(84): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+d:\onedrive\documents\canada\labo\log635\labo\lab 3\main.c(95): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+  LOG635-lab3.vcxproj -> D:\OneDrive\Documents\Canada\labo\LOG635\labo\lab 3\VS\LOG635-lab3\Debug\LOG635-lab3.exe
