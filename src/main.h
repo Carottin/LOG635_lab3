@@ -9,7 +9,7 @@
 
 
 
-open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_critere);
+int open_data(double** matrice_data, char** title_data, int* nb_ligne, int* nb_critere);
 int split_char(char* txt_buf, char** txt_split, char separateur);
-int split_char_tofloat(char* txt_buf, float* float_split, char separateur);
+int split_char_todouble(char* txt_buf, double* float_split, char separateur);
 

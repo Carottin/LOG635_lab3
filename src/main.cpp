@@ -2,13 +2,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <sstream>
 
+using namespace std;
 
 
 
 int main(int argc, int* argv[])
 {
-	float** matrice_data = (float**)malloc(sizeof(float*) * NB_LIGNE_MAX); // Données des classes	
+	double** matrice_data = (double**)malloc(sizeof(double*) * NB_LIGNE_MAX); // Données des classes	
 	char** title_data = (char**)malloc(sizeof(char*)*NB_ARGUMENTS_MAX); // nom de la donnée
 	int nb_ligne, nb_critere;
 
@@ -17,7 +22,7 @@ int main(int argc, int* argv[])
 	for (int i = 0; i < nb_critere; i++)
 	{
 
-		printf("%s->%f \n", title_data[i], matrice_data[3][i]);
+		cout << title_data[i] << "->" <<  matrice_data[14][i] << endl;
 	}
 	
 
@@ -27,7 +32,7 @@ int main(int argc, int* argv[])
 
 // Open the csv file
 // Fill matrice data
-int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_critere) {
+int open_data(double** matrice_data, char** title_data, int* nb_ligne, int* nb_critere) {
 	FILE* file = NULL; // create a new file
 	file = fopen(DATASET_FOLDER, "r");  // open csv file
 	if (file != NULL) {
@@ -39,8 +44,8 @@ int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_cr
 		int i = 0;
 		while (fgets(txt_buf, 500, file) != NULL)
 		{
-			matrice_data[i] = (float*)malloc(sizeof(float)*(*nb_critere));
-			split_char_tofloat(txt_buf, matrice_data[i], ',');
+			matrice_data[i] = (double*)malloc(sizeof(double)*(*nb_critere));
+			split_char_todouble(txt_buf, matrice_data[i], ',');
 			i++;
 		}
 		*nb_ligne = i;
@@ -80,8 +85,8 @@ int split_char(char* txt_buf, char** txt_split, char separateur) {
 	return sizeof_split + 1;
 }
 
-// same as split_char but convert in float
-int split_char_tofloat(char* txt_buf, float* float_split, char separateur) {
+// same as split_char but convert in double
+int split_char_todouble(char* txt_buf, double* double_split, char separateur) {
 	
 	char tmp[30];
 
@@ -89,7 +94,7 @@ int split_char_tofloat(char* txt_buf, float* float_split, char separateur) {
 	while (txt_buf[j] != '\n' ) {
 		if (txt_buf[j] == separateur) {
 			tmp[k] = EOF;
-			float_split[i] = atof(tmp);
+			double_split[i] = atof(tmp);
 			i++;
 			k = 0;
 		}
@@ -99,8 +104,20 @@ int split_char_tofloat(char* txt_buf, float* float_split, char separateur) {
 		}
 		j++;
 	}
-	tmp[k] = EOF;
-	float_split[i] = atof(tmp);
+	tmp[k] = '\0';
+	string s = string(tmp);
+	if (s.find('"', 0) != std::string::npos) {
+		s.erase(std::remove(s.begin(), s.end(), '"'), s.end());
+		cout << s << endl;
+		istringstream os(s);
+		double d;
+		os >> d;
+		cout << d << endl;
+		double_split[i] = d;
+	}
+	else {
+		double_split[i] = atof(s.c_str());
+	}
 	return i;
 	
 }
