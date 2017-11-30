@@ -11,6 +11,7 @@ int main(int argc, int* argv[])
 	float** matrice_data = (float**)malloc(sizeof(float*) * NB_LIGNE_MAX); // Données des classes	
 	char** title_data = (char**)malloc(sizeof(char*)*NB_ARGUMENTS_MAX); // nom de la donnée
 	int nb_ligne, nb_critere;
+
 	open_data(matrice_data, title_data, &nb_ligne, &nb_critere);
 
 	for (int i = 0; i < nb_critere; i++)
@@ -47,7 +48,7 @@ int open_data(float** matrice_data, char** title_data, int* nb_ligne, int* nb_cr
 	}
 	else
 	{
-		printf("erreure ouverture de fichier");
+		printf("erreur d'ouverture de fichier");
 	}
 	
 	return 0;
