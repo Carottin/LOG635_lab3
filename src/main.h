@@ -21,7 +21,7 @@ typedef struct point
 
 typedef struct resultat
 {
-	int nb_reponses_correct, nb_reponse_fausses;
+	int nb_reponses_correctes, nb_reponse_fausses;
 	//double* lignes_fausses;
 } str_resultat;
 

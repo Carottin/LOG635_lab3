@@ -86,14 +86,14 @@ int main(int argc, char* argv[])
 		int ligue_trouve = roundf((float)moyenne_ligue_trouve / (float)n_k);
 		//int ligue_trouve = points_proches[0].ligue;
 		if (ligue_trouve == matrice_data[indice_ligne_test][0]) {
-			resultat.nb_reponses_correct++;
+			resultat.nb_reponses_correctes++;
 		}
 		else {
 			resultat.nb_reponse_fausses++;
 		}
 	}
 
-	double taux = (double)resultat.nb_reponses_correct / (double)(resultat.nb_reponses_correct + resultat.nb_reponse_fausses) * 100;
+	double taux = (double)resultat.nb_reponses_correctes / (double)(resultat.nb_reponses_correctes + resultat.nb_reponse_fausses) * 100;
 	printf("%d lignes de base de conaissances, %d lignes teste, n_k = %d, taux de bonne reponse : %.2f\n", nb_lignes_bdd, nb_lignes- nb_lignes_bdd, n_k, taux);
 
 
