@@ -33,6 +33,7 @@ int split_char_todouble(char* txt_buf, double* float_split, char separateur);
 void print_ligne(int);
 void sort_points(str_point*);
 double get_distance(double*, double*);
+void normalize_data();
 
 
 

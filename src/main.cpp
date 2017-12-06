@@ -14,7 +14,8 @@ using namespace std;
 double** matrice_data;
 char** title_data;
 int n_k;
-
+int nb_lignes;
+int nb_critere;
 
 int main(int argc, char* argv[])
 {
@@ -28,13 +29,15 @@ int main(int argc, char* argv[])
 	}
 
 	str_resultat resultat;
-	resultat.nb_reponses_correct = 0;
+	resultat.nb_reponses_correctes = 0;
 	resultat.nb_reponse_fausses = 0;
 
 	matrice_data = (double**)malloc(sizeof(double*) * NB_LIGNE_MAX); // Données des classes	
 	title_data = (char**)malloc(sizeof(char*)*NB_ATTRIBUTS_MAX); // nom de la donnée
 
-	int nb_lignes = open_data();
+	nb_lignes = open_data();
+	nb_lignes_bdd = nb_lignes * 0.2;
+	normalize_data();
 
 	//print_ligne(14);
 
@@ -43,11 +46,6 @@ int main(int argc, char* argv[])
 	//initialisation de tableau qui va stocker les points les plus proches.
 	str_point* points_proches = (str_point*)malloc(sizeof(str_point)*n_k);
 	double tmp_distance = 0;
-	for (int i = 0; i < n_k; i++)
-	{
-		points_proches[i].distance = DIST_INF;
-		points_proches[i].ligue = LEAGUE_NULL;
-	}
 
 
 	////algo en lui même
@@ -55,14 +53,19 @@ int main(int argc, char* argv[])
 	//le X lignes bdd sont comparées une a une au nouveau point
 	//et l'on rmplis le tableau des point les plus proches de n_k specifié en parametre.
 
-	for (int indice_ligne_test = nb_lignes_bdd; indice_ligne_test < nb_lignes; indice_ligne_test++) { // on parcours toutes les lignes inconnues		
+	for (int indice_ligne_test = nb_lignes_bdd; indice_ligne_test < nb_lignes; indice_ligne_test++) { // on parcours toutes les lignes inconnues	
+		for (int i = 0; i < n_k; i++)
+		{
+			points_proches[i].distance = DIST_INF;
+			points_proches[i].ligue = LEAGUE_NULL;
+		}
 		for (int indice_ligne_bdd = 0; indice_ligne_bdd < nb_lignes_bdd; indice_ligne_bdd++) { //par rapport au lignes connus
 			
 			tmp_distance = get_distance(matrice_data[indice_ligne_test], matrice_data[indice_ligne_bdd]);
 
 			if (tmp_distance < points_proches[n_k - 1].distance) {
 				points_proches[n_k - 1].distance = tmp_distance;
-				points_proches[n_k - 1].ligue = matrice_data[indice_ligne_bdd][0];
+				points_proches[n_k - 1].ligue = matrice_data[indice_ligne_bdd][nb_critere];
 
 				//trie
 				str_point tmp_point;
@@ -82,10 +85,12 @@ int main(int argc, char* argv[])
 		for (int i = 0; i < n_k; i++)
 		{
 			moyenne_ligue_trouve += points_proches[i].ligue;
+			cout << "ligue point proche : " << points_proches[i].ligue << endl;
 		}
 		int ligue_trouve = roundf((float)moyenne_ligue_trouve / (float)n_k);
 		//int ligue_trouve = points_proches[0].ligue;
-		if (ligue_trouve == matrice_data[indice_ligne_test][0]) {
+		cout << "ligue : " << matrice_data[indice_ligne_test][nb_critere] << ". Valeur prédite : " << ligue_trouve << endl;
+		if (ligue_trouve == matrice_data[indice_ligne_test][nb_critere]) {
 			resultat.nb_reponses_correctes++;
 		}
 		else {
@@ -93,10 +98,10 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	double taux = (double)resultat.nb_reponses_correctes / (double)(resultat.nb_reponses_correctes + resultat.nb_reponse_fausses) * 100;
+	double taux = ((double)resultat.nb_reponses_correctes / (double)(resultat.nb_reponses_correctes + resultat.nb_reponse_fausses)) * 100;
 	printf("%d lignes de base de conaissances, %d lignes teste, n_k = %d, taux de bonne reponse : %.2f\n", nb_lignes_bdd, nb_lignes- nb_lignes_bdd, n_k, taux);
 
-
+	system("pause");
 	return 0;
 }
 
@@ -112,12 +117,12 @@ int open_data() {
 	if (file != NULL) {
 		char txt_buf[500];
 		fgets(txt_buf, 500, file);
-		int nb_critere = split_char(txt_buf, title_data, ',');
+		nb_critere = split_char(txt_buf, title_data, ',');
 
 		int i = 0;
 		while (fgets(txt_buf, 500, file) != NULL)
 		{
-			matrice_data[i] = (double*)malloc(sizeof(double)*nb_critere);
+			matrice_data[i] = (double*)malloc(sizeof(double)*(nb_critere + NB_ATTRIBUTS_PERTINENTS));
 			split_char_todouble(txt_buf, matrice_data[i], ',');
 			i++;
 		}
@@ -138,7 +143,7 @@ int open_data() {
 
 	for (int i = 0; i < nb_ligne; i++) {
 		for (int j = 0; j < NB_ATTRIBUTS_PERTINENTS; j++) {
-			(double)matrice_data[i][j] = (double)matrice_data[i][tab_indice[j]];
+			(double)matrice_data[i][j+nb_critere] = (double)matrice_data[i][tab_indice[j]];
 		}
 		//realloc((double*)matrice_data[i], NB_ATTRIBUTS_PERTINENTS + 1);
 	}
@@ -217,10 +222,26 @@ int split_char_todouble(char* txt_buf, double* double_split, char separateur) {
 
 double get_distance(double* point_A, double* point_B) {
 	double tmp = 0;
-	for (int i = 1; i < NB_ATTRIBUTS_PERTINENTS; i++) {
-		tmp += (point_A[i] + point_B[i])*(point_A[i] + point_B[i]);
+	for (int i = nb_critere; i < nb_critere + NB_ATTRIBUTS_PERTINENTS; i++) {
+		tmp += (point_A[i] - point_B[i])*(point_A[i] - point_B[i]);
 	}
 	return sqrt(tmp);
+}
+
+void normalize_data() {
+	for (int j = nb_critere + 1; j < nb_critere + NB_ATTRIBUTS_PERTINENTS; j++) {
+		double max = 0;
+		double min = DBL_MAX;
+		for (int i = 0; i < nb_lignes; i++) {
+			if (matrice_data[i][j] > max)
+				max = matrice_data[i][j];
+			if (matrice_data[i][j] < min)
+				min = matrice_data[i][j];
+		}
+		for (int i = 0; i < nb_lignes; i++) {
+			matrice_data[i][j] = (matrice_data[i][j] - min) / (max - min);
+		}
+	}
 }
 
 
