@@ -122,6 +122,7 @@ int open_data() {
 		int i = 0;
 		while (fgets(txt_buf, 500, file) != NULL)
 		{
+			if (txt_buf == "\n") break;
 			matrice_data[i] = (double*)malloc(sizeof(double)*(nb_critere + NB_ATTRIBUTS_PERTINENTS));
 			split_char_todouble(txt_buf, matrice_data[i], ',');
 			i++;
