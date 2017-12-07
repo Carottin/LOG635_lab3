@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <sstream>
 
+
 using namespace std;
 double** matrice_data;
 char** title_data;
@@ -20,7 +21,7 @@ int nb_critere;
 int main(int argc, char* argv[])
 {
 	int nb_lignes_bdd = 3000;
-	n_k = 5;
+	n_k = 4;
 	if (argc >= 2) {//nb de ligne de test 
 		nb_lignes_bdd = atoi(argv[1]);
 	}
@@ -36,7 +37,7 @@ int main(int argc, char* argv[])
 	title_data = (char**)malloc(sizeof(char*)*NB_ATTRIBUTS_MAX); // nom de la donnée
 
 	nb_lignes = open_data();
-	nb_lignes_bdd = nb_lignes * 0.2;
+	nb_lignes_bdd = 3368;
 	normalize_data();
 
 	//print_ligne(14);
@@ -85,7 +86,7 @@ int main(int argc, char* argv[])
 		for (int i = 0; i < n_k; i++)
 		{
 			moyenne_ligue_trouve += points_proches[i].ligue;
-			cout << "ligue point proche : " << points_proches[i].ligue << endl;
+			//cout << "ligue point proche : " << points_proches[i].ligue << endl;
 		}
 		int ligue_trouve = roundf((float)moyenne_ligue_trouve / (float)n_k);
 		//int ligue_trouve = points_proches[0].ligue;
@@ -223,7 +224,7 @@ int split_char_todouble(char* txt_buf, double* double_split, char separateur) {
 
 double get_distance(double* point_A, double* point_B) {
 	double tmp = 0;
-	for (int i = nb_critere; i < nb_critere + NB_ATTRIBUTS_PERTINENTS; i++) {
+	for (int i = nb_critere + 1; i < nb_critere + NB_ATTRIBUTS_PERTINENTS; i++) {
 		tmp += (point_A[i] - point_B[i])*(point_A[i] - point_B[i]);
 	}
 	return sqrt(tmp);

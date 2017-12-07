@@ -1,14 +1,14 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
-#define DATASET_FOLDER "../Dataset.csv"
+#define DATASET_FOLDER "../Correction-Dataset.csv"
 #define MAXSIZE_TITLE 50
 #define NB_LIGNE_MAX 4000
 #define NB_ATTRIBUTS_MAX 30
 
 #define INDEX_LEAGUE 1
-#define NB_ATTRIBUTS_PERTINENTS 5
-#define ATTRIBUTS_PERTINENTS {INDEX_LEAGUE, 5, 10, 11, 12, 13}
+#define NB_ATTRIBUTS_PERTINENTS 8
+#define ATTRIBUTS_PERTINENTS {INDEX_LEAGUE, 5, 7, 8, 11, 12, 13, 16}
 //#define COEFFICIENT_ATTRIBUTS {1, 0.1, 100, 100, 1, 1, 1, 100, 1, 1, 1, 1, 0.001}
 
 #define DIST_INF (float)2e6
