@@ -47,6 +47,7 @@ int main(int argc, char* argv[])
 	float rappels[8];
 	float fmesures[8];
 	float errmoys[8];
+	int predictions_correctes[8];
 	float errmoy = 0.0f;
 
 	for (int i = 0; i < 8; i++) {
@@ -56,6 +57,7 @@ int main(int argc, char* argv[])
 		rappels[i] = 0.0f;
 		fmesures[i] = 0.0f;
 		errmoys[i] = 0.0f;
+		predictions_correctes[i] = 0;
 	}
 	//print_ligne(14);
 
@@ -113,6 +115,7 @@ int main(int argc, char* argv[])
 			resultat.nb_reponses_correctes++;
 			precisions[ligue_trouve - 1]++;
 			rappels[ligue_trouve - 1]++;
+			predictions_correctes[ligue_trouve - 1]++;
 		}
 		else {
 			resultat.nb_reponse_fausses++;
@@ -141,6 +144,8 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < 8; i++) {
 		if (league_count_dataset[i] > 0) {
 			cout << "Ligue: " << i + 1 << endl;
+			cout << "Nombre de tuples dans la base de connaissance: " << league_count_dataset[i] << endl;
+			cout << "Predictions correctes: " << predictions_correctes[i] << endl;
 			cout << "Precision: " << precisions[i] << endl;
 			cout << "Rappel: " << rappels[i] << endl;
 			cout << "F mesure: " << fmesures[i] << endl;
