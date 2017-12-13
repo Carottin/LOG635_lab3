@@ -1,7 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
-#define DATASET_FOLDER "../Correction-Dataset.csv"
+#define DATASET_FOLDER "../Dataset.csv"
 #define MAXSIZE_TITLE 50
 #define NB_LIGNE_MAX 4000
 #define NB_ATTRIBUTS_MAX 30

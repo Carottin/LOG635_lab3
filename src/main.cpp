@@ -37,9 +37,26 @@ int main(int argc, char* argv[])
 	title_data = (char**)malloc(sizeof(char*)*NB_ATTRIBUTS_MAX); // nom de la donnée
 
 	nb_lignes = open_data();
-	nb_lignes_bdd = 3368;
+	nb_lignes_bdd = 0.66*nb_lignes;
 	normalize_data();
 
+	// testing metrics
+	int league_count_dataset[8];
+	int league_count_test[8];
+	float precisions[8];
+	float rappels[8];
+	float fmesures[8];
+	float errmoys[8];
+	float errmoy = 0.0f;
+
+	for (int i = 0; i < 8; i++) {
+		league_count_dataset[i] = 0.0f;
+		league_count_test[i] = 0.0f;
+		precisions[i] = 0.0f;
+		rappels[i] = 0.0f;
+		fmesures[i] = 0.0f;
+		errmoys[i] = 0.0f;
+	}
 	//print_ligne(14);
 
 	/////////////////////////////////////////////////////////////////////////////////////////test1
@@ -89,18 +106,47 @@ int main(int argc, char* argv[])
 			//cout << "ligue point proche : " << points_proches[i].ligue << endl;
 		}
 		int ligue_trouve = roundf((float)moyenne_ligue_trouve / (float)n_k);
+		int ligue_reelle = matrice_data[indice_ligne_test][nb_critere];
 		//int ligue_trouve = points_proches[0].ligue;
-		cout << "ligue : " << matrice_data[indice_ligne_test][nb_critere] << ". Valeur prédite : " << ligue_trouve << endl;
-		if (ligue_trouve == matrice_data[indice_ligne_test][nb_critere]) {
+		cout << "ligue : " << ligue_reelle << ". Valeur prédite : " << ligue_trouve << endl;
+		if (ligue_trouve == ligue_reelle) {
 			resultat.nb_reponses_correctes++;
+			precisions[ligue_trouve - 1]++;
+			rappels[ligue_trouve - 1]++;
 		}
 		else {
 			resultat.nb_reponse_fausses++;
+			errmoys[ligue_reelle - 1] += abs(ligue_reelle-ligue_trouve);
+			errmoy += abs(ligue_reelle - ligue_trouve);
 		}
+		league_count_dataset[ligue_reelle - 1]++;
+		league_count_test[ligue_trouve - 1]++;
 	}
+
+	//metrics
+	for (int i = 0; i < 8; i++) {
+		precisions[i] = precisions[i]/ league_count_test[i];
+		rappels[i] = rappels[i] / league_count_dataset[i];
+		fmesures[i] = (2* precisions[i] * rappels[i])/(precisions[i] + rappels[i]);
+		errmoys[i] = errmoys[i] / league_count_dataset[i];
+	}
+	errmoy = errmoy / (nb_lignes - nb_lignes_bdd);
 
 	double taux = ((double)resultat.nb_reponses_correctes / (double)(resultat.nb_reponses_correctes + resultat.nb_reponse_fausses)) * 100;
 	printf("%d lignes de base de conaissances, %d lignes teste, n_k = %d, taux de bonne reponse : %.2f\n", nb_lignes_bdd, nb_lignes- nb_lignes_bdd, n_k, taux);
+
+	cout << endl << "Erreur moyenne: " << errmoy << endl;
+	cout << endl << "Metriques par ligue: " << endl << endl;
+
+	for (int i = 0; i < 8; i++) {
+		if (league_count_dataset[i] > 0) {
+			cout << "Ligue: " << i + 1 << endl;
+			cout << "Precision: " << precisions[i] << endl;
+			cout << "Rappel: " << rappels[i] << endl;
+			cout << "F mesure: " << fmesures[i] << endl;
+			cout << "Erreur moyenne: " << errmoys[i] << endl << endl;
+		}
+	}
 
 	system("pause");
 	return 0;
